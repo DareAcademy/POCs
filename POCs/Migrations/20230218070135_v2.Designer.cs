@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using POCs.data;
 
@@ -11,9 +12,10 @@ using POCs.data;
 namespace POCs.Migrations
 {
     [DbContext(typeof(pocContext))]
-    partial class pocContextModelSnapshot : ModelSnapshot
+    [Migration("20230218070135_v2")]
+    partial class v2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -76,9 +78,17 @@ namespace POCs.Migrations
                     b.Property<int>("Course_Id")
                         .HasColumnType("int");
 
+                    b.Property<int>("courseId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("planId")
+                        .HasColumnType("int");
+
                     b.HasKey("Plan_Id", "Course_Id");
 
-                    b.HasIndex("Course_Id");
+                    b.HasIndex("courseId");
+
+                    b.HasIndex("planId");
 
                     b.ToTable("Plan_Items");
                 });
@@ -115,13 +125,13 @@ namespace POCs.Migrations
                 {
                     b.HasOne("POCs.data.Courses", "course")
                         .WithMany("liPlan_Items")
-                        .HasForeignKey("Course_Id")
+                        .HasForeignKey("courseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("POCs.data.Plans", "plan")
                         .WithMany("liPlan_Items")
-                        .HasForeignKey("Plan_Id")
+                        .HasForeignKey("planId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

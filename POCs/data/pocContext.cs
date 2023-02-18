@@ -5,6 +5,9 @@ namespace POCs.data
 	{
 		public DbSet<Course_Sections> course_Sections { get; set; }
 		public DbSet<Course_days> course_days { get; set; }
+		public DbSet<Plans> Plans { get; set; }
+		public DbSet<Courses> Courses { get; set; }
+		public DbSet<Plan_Items> Plan_Items { get; set; }
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
 			optionsBuilder.UseSqlServer("data source=localhost;initial catalog=POCs;integrated security=true");
@@ -15,7 +18,8 @@ namespace POCs.data
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			modelBuilder.Entity<Course_days>().HasKey(xyz => new { xyz.Section_Id, xyz.day});
-			base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Plan_Items>().HasKey(xyz => new { xyz.Plan_Id, xyz.Course_Id });
+            base.OnModelCreating(modelBuilder);
 		}
 	}
 }
